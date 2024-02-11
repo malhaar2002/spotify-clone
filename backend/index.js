@@ -4,10 +4,14 @@ const JwtStrategy = require("passport-jwt").Strategy,
   ExtractJwt = require("passport-jwt").ExtractJwt;
 const passport = require("passport");
 const User = require("./models/User");
+const authRoutes = require("./routes/auth");
 require("dotenv").config();
 
 const app = express();
 const port = 8000;
+
+// convert req body to json
+app.use(express.json());
 
 // connect to the mongo database
 mongoose
@@ -47,6 +51,8 @@ passport.use(
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
+
+app.use("/auth", authRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
