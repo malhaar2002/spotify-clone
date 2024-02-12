@@ -5,6 +5,7 @@ const JwtStrategy = require("passport-jwt").Strategy,
 const passport = require("passport");
 const User = require("./models/User");
 const authRoutes = require("./routes/auth");
+const songRoutes = require("./routes/song")
 require("dotenv").config();
 
 const app = express();
@@ -16,7 +17,8 @@ app.use(express.json());
 // connect to the mongo database
 mongoose
   .connect(
-    `mongodb+srv://aroramalhaar:${process.env.MONGO_PASSWORD}@spotify-clone.pyfrgtr.mongodb.net/?retryWrites=true&w=majority`,
+    // `mongodb+srv://aroramalhaar:${process.env.MONGO_PASSWORD}@spotify-clone.pyfrgtr.mongodb.net/?retryWrites=true&w=majority`,
+    `mongodb://aroramalhaar:${process.env.MONGO_PASSWORD}@ac-xyikvvj-shard-00-00.pyfrgtr.mongodb.net:27017,ac-xyikvvj-shard-00-01.pyfrgtr.mongodb.net:27017,ac-xyikvvj-shard-00-02.pyfrgtr.mongodb.net:27017/?ssl=true&replicaSet=atlas-ucgcnn-shard-0&authSource=admin&retryWrites=true&w=majority`,
     {}
   )
   .then((x) => {
@@ -53,6 +55,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/song", songRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
